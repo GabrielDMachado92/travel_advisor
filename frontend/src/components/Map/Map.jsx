@@ -7,10 +7,9 @@ import useStyles from "./styles";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
-const Map = () => {
+const Map = ({ coordinates, setBounds, setCoordinates }) => {
   const classes = useStyles();
   const isMobile = useMediaQuery("(min-width:600px)");
-  const coordinates = { lat: 0, lng: 0 };
 
   return (
     <div className={classes.mapContainer}>
@@ -19,6 +18,12 @@ const Map = () => {
         defaultCenter={coordinates}
         defaultZoom={14}
         margin={[50, 50, 50, 50]}
+        onChange={(e) => {
+          console.log("jjjjjjj", e.marginBounds.ne);
+          console.log(e.marginBounds.sw);
+          setCoordinates({ lat: e.center.lat, lng: e.center.lng });
+          setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
+        }}
       ></GoogleMapReact>
     </div>
   );
