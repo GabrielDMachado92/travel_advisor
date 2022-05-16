@@ -3,6 +3,8 @@ import axios from "axios";
 const URL =
   "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary";
 
+const RAPID_API_KEY = process.env.REACT_APP_RAPID_API_KEY;
+
 export const getPlacesData = async (ne, sw) => {
   try {
     const {
@@ -16,7 +18,7 @@ export const getPlacesData = async (ne, sw) => {
       },
       headers: {
         "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
-        "X-RapidAPI-Key": "bf07e977c4mshaefdd24e37b3ad3p1508c5jsn64e3f2bf2051",
+        "X-RapidAPI-Key": RAPID_API_KEY,
       },
     });
     console.log(data);
