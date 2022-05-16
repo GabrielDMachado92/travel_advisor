@@ -16,10 +16,12 @@ import Rating from "@material-ui/lab/Rating";
 
 import useStyles from "./styles";
 
-const PlaceDetails = ({ place }) => {
-  console.log(place);
-
+const PlaceDetails = ({ place, selected, refProp }) => {
   const classes = useStyles();
+  console.log(refProp.current);
+
+  if (selected)
+    refProp?.current?.scrollIntoView({ behaviour: "smooth", block: "start" });
 
   return (
     <Card elevation={6}>
@@ -40,6 +42,12 @@ const PlaceDetails = ({ place }) => {
           <Typography variant="subtitle1">Price</Typography>
           <Typography gutterBottom variant="subtitle1">
             {place.price_level}
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Rating size="small" value={Number(place.rating)} readOnly />
+          <Typography gutterBottom variant="subtitle1">
+            out of {place.num_reviews} reviews
           </Typography>
         </Box>
         <Box display="flex" justifyContent="space-between">
