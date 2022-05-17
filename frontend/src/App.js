@@ -25,8 +25,8 @@ function App() {
     setLoading(true);
     getPlacesData(bounds.ne, bounds.sw).then((data) => {
       setPlaces(data);
+      setLoading(false);
     });
-    setLoading(false);
   }, [bounds, coordinates]);
 
   return (

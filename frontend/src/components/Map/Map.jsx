@@ -22,13 +22,14 @@ const Map = ({
       <GoogleMapReact
         bootstrapURLKeys={{ key: API_KEY }}
         defaultCenter={coordinates}
-        defaultZoom={14}
+        defaultZoom={17}
         margin={[50, 50, 50, 50]}
         onChange={(e) => {
           setCoordinates({ lat: e.center.lat, lng: e.center.lng });
           setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         }}
         onChildClick={(child) => {
+          console.log("child: " + child);
           setChildClicked(child);
         }}
       >
