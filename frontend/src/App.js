@@ -15,13 +15,21 @@ function App() {
   const [rating, setRating] = useState("");
   const [filteredPlaces, setFilteredPlaces] = useState([]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     navigator.geolocation.getCurrentPosition((e) => {
       setCoordinates({
         lat: e.coords.latitude,
         lng: e.coords.longitude,
       });
     });
+  }, []); */
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setCoordinates({ lat: latitude, lng: longitude });
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -30,20 +38,22 @@ function App() {
   }, [rating]);
 
   useEffect(() => {
-    setLoading(true);
-    getPlacesData(type, bounds.ne, bounds.sw).then((data) => {
-      setPlaces(data);
-      setFilteredPlaces([]);
-      setLoading(false);
-    });
-  }, [type, bounds, coordinates]);
+    if (bounds.ne && bounds.sw) {
+      setLoading(true);
+      getPlacesData(type, bounds.ne, bounds.sw).then((data) => {
+        setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+        setFilteredPlaces([]);
+        setLoading(false);
+      });
+    }
+  }, [type, bounds]);
 
   return (
     <>
       <CssBaseline />
-      <Header />
+      <Header setCoordinates={setCoordinates} />
       <Grid container spacing={3} style={{ width: "100%" }}>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <List
             places={filteredPlaces.length ? filteredPlaces : places}
             childClicked={childClicked}
@@ -54,7 +64,16 @@ function App() {
             setRating={setRating}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid
+          item
+          xs={12}
+          md={8}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Map
             setCoordinates={setCoordinates}
             setBounds={setBounds}

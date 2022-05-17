@@ -16,12 +16,13 @@ const Map = ({
 }) => {
   const classes = useStyles();
   const isDesktop = useMediaQuery("(min-width:600px)");
-
+  console.log("MAP: " + coordinates.lat);
   return (
     <div className={classes.mapContainer}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: API_KEY }}
         defaultCenter={coordinates}
+        center={coordinates}
         defaultZoom={17}
         margin={[50, 50, 50, 50]}
         onChange={(e) => {
@@ -29,7 +30,6 @@ const Map = ({
           setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         }}
         onChildClick={(child) => {
-          console.log("child: " + child);
           setChildClicked(child);
         }}
       >
